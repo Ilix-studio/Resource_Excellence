@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import adminRoute from "./routes/adminRoute.js";
 import { routeNotFound, errorHandler } from "./middleware/errorMiddleware.js";
+import connectDB from "./configDB/db.js";
 
 const app = express();
 //use middleware
@@ -22,3 +23,5 @@ app.use(errorHandler);
 app.get("/", (req, res) => res.send("server is ready"));
 
 app.listen(port, () => console.log(`Litening at http://localhost:${port}`));
+
+connectDB();
