@@ -1,5 +1,6 @@
 import express from "express";
 const router = express.Router();
+import { check } from "express-validator";
 //Import User Models
 import {
   authUser,
@@ -9,7 +10,17 @@ import {
   updateUserProfile,
 } from "../controllers/userControllers.js";
 
-router.post("/register", registerUser);
+router.post(
+  "/register",
+  [
+    check("name").notEmpty().withMessage("Name is required"),
+    check("email").isEmail().withMessage("Please enter a valid email"),
+    check("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters long"),
+  ],
+  registerUser
+);
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);
 router.route("/profile").get(getUserProfile).put(updateUserProfile);
