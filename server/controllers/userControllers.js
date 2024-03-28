@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModels.js";
 import { validationResult } from "express-validator";
+import { generateToken } from "../utils/generateToken.js";
 
 //Register User - set a new user
 //POST Request - /api/users
@@ -25,6 +26,7 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (newUser) {
+    generateToken(res, newUser._id);
     res.status(201).json({
       _id: newUser._id,
       name: newUser.name,
