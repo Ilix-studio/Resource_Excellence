@@ -42,14 +42,32 @@ const registerUser = asyncHandler(async (req, res) => {
 //POST Request - /api/users/auth
 //Public
 const authUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Auth User" });
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  console.log(user);
+
+  if (user && (await user.comparePassword(password))) {
+    generateToken(res, user._id);
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(418);
+    throw new Error("I am a teapot");
+  }
 });
 
 //Logout User - remove token
 //POST Request - /api/users/logout
 //Public
 const logoutUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Logout User" });
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: " User Logout " });
 });
 
 //Get User profile

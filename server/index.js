@@ -16,11 +16,10 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/jobs", jobRoutes);
 
-app.use(routeNotFound);
-app.use(errorHandler);
-
 app.get("/", (req, res) => res.send("server is ready"));
 
 app.listen(port, () => console.log(`Litening at http://localhost:${port}`));
 
 connectDB();
+app.use(routeNotFound);
+app.use(errorHandler);
