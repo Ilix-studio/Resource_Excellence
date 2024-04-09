@@ -20,7 +20,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
       enum: ["jobseeker", "recruiter"],
-      default: "jobseeker", // Set a default role (optional)
     },
     applications: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Application" },
