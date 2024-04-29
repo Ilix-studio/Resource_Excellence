@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+//Here Jobseeker will see all the job post if appliped
 
 const applicationSchema = mongoose.Schema({
   jobId: {
@@ -23,5 +24,5 @@ const applicationSchema = mongoose.Schema({
   createdAt: { type: Date, default: Date.now }, // Application submission time
 });
 
-const Application = mongoose.model("Application", applicationSchema);
-export default Application;
+const application = mongoose.model("Application", applicationSchema);
+export default application;

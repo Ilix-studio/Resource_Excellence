@@ -20,7 +20,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
       enum: ["jobseeker", "recruiter"],
-      default: "jobseeker", // Set a default role (optional)
     },
     applications: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Application" },
@@ -46,3 +45,4 @@ userSchema.methods.comparePassword = async function (recentPassword) {
 
 const User = mongoose.model("User", userSchema);
 export default User;
+// Add Google OAuth
