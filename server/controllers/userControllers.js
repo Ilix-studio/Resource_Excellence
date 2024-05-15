@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import User from "../models/userModels.js";
+import User from "../models/User/userModels.js";
 import { validationResult } from "express-validator";
 import { generateToken } from "../utils/generateToken.js";
 
@@ -7,7 +7,7 @@ import { generateToken } from "../utils/generateToken.js";
 //POST Request - /api/users
 //Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, roles } = req.body;
   // Input validation using Express Validator
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -23,6 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    roles,
   });
 
   if (newUser) {
@@ -31,6 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: newUser._id,
       name: newUser.name,
       email: newUser.email,
+      roles: newUser.roles,
     });
   } else {
     res.status(400);
@@ -38,12 +40,12 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-//Auth User - set token
+//Auth User || login user - set token
 //POST Request - /api/users/auth
 //Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email, roles });
   console.log(user);
 
   if (user && (await user.comparePassword(password))) {
@@ -59,6 +61,13 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Create roles
+// POST Request - /api/users/roles
+// Public
+// const createRoles = asyncHandler(async (req, res) => {
+//   const { roles } = req.body;
+// });
+
 //Logout User - remove token
 //POST Request - /api/users/logout
 //Public
@@ -73,21 +82,15 @@ const logoutUser = asyncHandler(async (req, res) => {
 //Get User profile
 //GET Request - /api/users/profile
 //Private
-const getUserProfile = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: " User Profile" });
-});
+// const getUserProfile = asyncHandler(async (req, res) => {
+//   res.status(200).json({ message: " User Profile" });
+// });
 
 //Update User Profile
 //PUT Request - /api/users/profile
 //Private
-const updateUserProfile = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Update User Profile" });
-});
+// const updateUserProfile = asyncHandler(async (req, res) => {
+//   res.status(200).json({ message: "Update User Profile" });
+// });
 
-export {
-  authUser,
-  registerUser,
-  logoutUser,
-  getUserProfile,
-  updateUserProfile,
-};
+export { registerUser, authUser, logoutUser };

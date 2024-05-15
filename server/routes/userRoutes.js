@@ -6,10 +6,11 @@ import {
   authUser,
   registerUser,
   logoutUser,
-  getUserProfile,
-  updateUserProfile,
 } from "../controllers/userControllers.js";
+// import { protect } from "../middleware/authMiddleware.js";
 
+//Router-level Middleware
+//User Routes and Controller Functions
 router.post(
   "/register",
   [
@@ -22,10 +23,12 @@ router.post(
   registerUser
 );
 router.post("/auth", authUser); // login user
+
 router.post("/logout", logoutUser);
-router
-  .route("/profile")
-  .get(protect, getUserProfile)
-  .put(protect, updateUserProfile);
+
+// router
+//   .route("/profile")
+//   .get(protect, getUserProfile)
+//   .put(protect, updateUserProfile);
 
 export default router;
