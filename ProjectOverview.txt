@@ -1,0 +1,24 @@
+ 
+[] Standard Login
+[] Auth0
+[] Choose Profile ? JobSeeker or Recruiter 
+[] if Jobseeker - Jobseeker Dashboard 
+[] if Recruiter - Recruiter Dashboard
+
+[] JobSeeker Dashboard Features
+[] Apply to Jobs 
+[] View All Jobs
+[] Applied Jobs
+[] Your Profile - Upload Resume/ Tech Skills 
+[] Logout 
+
+[] Recruiter Dashboard Features
+[] Create Job Description
+[] View the release Jobs 
+[] Total Employees 
+[] Logout 
+
+Fumctionality 
+[] Sorting
+[] Pagination
+[] Filtering

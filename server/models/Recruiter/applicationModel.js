@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-//Here Jobseeker will see all the job post if appliped
+// Job Applied form
 
 const applicationSchema = mongoose.Schema({
   jobId: {
