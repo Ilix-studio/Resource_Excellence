@@ -8,15 +8,17 @@ import jobRoutes from "./routes/jobRoutes.js";
 import { routeNotFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./configDB/db.js";
 import cookieParser from "cookie-parser";
+import limiter from "./middleware/loginLimiter.js";
 // import { isAdmin } from "./middleware/adminMiddleare.js";
 
 const app = express();
 
-//use build-in middleware
+//use middleware
 app.use(express.json({ limit: "30mb" }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-app.use(cookieParser()); //third party middleware
+app.use(cookieParser());
+// app.use(limiter); //Added in all requests
 
 //Routing Configuration
 app.use("/api/users", userRoutes);

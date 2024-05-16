@@ -6,8 +6,10 @@ import {
   authUser,
   registerUser,
   logoutUser,
+  refreshToken,
 } from "../controllers/userControllers.js";
 // import { protect } from "../middleware/authMiddleware.js";
+import limiter from "../middleware/loginLimiter.js";
 
 //Router-level Middleware
 //User Routes and Controller Functions
@@ -22,7 +24,9 @@ router.post(
   ],
   registerUser
 );
-router.post("/auth", authUser); // login user
+router.post("/auth", limiter, authUser); // login user
+
+router.get("/refresh", refreshToken);
 
 router.post("/logout", logoutUser);
 
