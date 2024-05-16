@@ -61,12 +61,10 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Create roles
-// POST Request - /api/users/roles
+// Refresh Token
+// GET Rquest - /api/users/refresh
 // Public
-// const createRoles = asyncHandler(async (req, res) => {
-//   const { roles } = req.body;
-// });
+const refreshToken = asyncHandler(async () => {});
 
 //Logout User - remove token
 //POST Request - /api/users/logout
@@ -93,4 +91,4 @@ const logoutUser = asyncHandler(async (req, res) => {
 //   res.status(200).json({ message: "Update User Profile" });
 // });
 
-export { registerUser, authUser, logoutUser };
+export { registerUser, authUser, logoutUser, refreshToken };
