@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import User from "../models/User/userModels.js";
 import { validationResult } from "express-validator";
 import { generateToken } from "../utils/generateToken.js";
+import jwt from "jsonwebtoken";
 
 //Register User - set a new user
 //POST Request - /api/users
@@ -45,7 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
 //Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email, roles });
+  const user = await User.findOne({ email });
   console.log(user);
 
   if (user && (await user.comparePassword(password))) {
@@ -56,15 +57,34 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
     });
   } else {
-    res.status(418);
-    throw new Error("I am a teapot");
+    res.status(401);
+    throw new Error("Invalid email or password");
   }
 });
 
 // Refresh Token
 // GET Rquest - /api/users/refresh
 // Public
-const refreshToken = asyncHandler(async () => {});
+const refreshToken = asyncHandler(async (req, res) => {
+  const cookies = req.cookies;
+  if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
+  const newRefreshToken = cookies.jwt;
+  jwt.verify(
+    newRefreshToken,
+    generateToken,
+    process.env.REFRESH_TOKEN_SECRET,
+    asyncHandler(async (err, decoded) => {
+      if (err) return res.status(403).json({ message: "Forbidden" });
+
+      const user = await User.findOne({ userId: decoded.userId }).exec();
+      if (!user) return res.status(401).json({ message: "Unauthorized" });
+      const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+        expires: "30d",
+      });
+      res.json({ token });
+    })
+  );
+});
 
 //Logout User - remove token
 //POST Request - /api/users/logout

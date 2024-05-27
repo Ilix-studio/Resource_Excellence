@@ -31,6 +31,7 @@ const userSchema = mongoose.Schema(
 );
 
 // Hash the password before saving
+//middleware function that executes before saving a user document.
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
@@ -39,9 +40,10 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 //compare the hash password, bcrypt has a method for password comparison
-userSchema.methods.comparePassword = async function (recentPassword) {
-  return await bcrypt.compare(recentPassword, this.password);
-};
+// userSchema.methods.comparePassword = async function (recentPassword) {
+//   return await bcrypt.compare(recentPassword, this.password);
+// };
+// If I add confirm password functionality reveal the code
 
 const User = mongoose.model("User", userSchema);
 export default User;

@@ -19,4 +19,4 @@ const protect = asyncHandler(async (req, res, next) => {
     throw new Error("Not Authorized, no token");
   }
 });
-export { protect };
+export default protect;

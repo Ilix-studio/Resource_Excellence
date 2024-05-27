@@ -6,12 +6,15 @@ import {
   deleteJobPosts,
   applyJob,
 } from "../controllers/jobPostsControllers.js";
+import protect from "../middleware/authMiddleware.js";
 
 //Import Job Models
 
 const router = express.Router();
 
-router.get("/", getAllJobPosts);
+router.use(protect);
+
+router.get("/getAll", getAllJobPosts);
 router.post("/createJob", createJobPost);
 router.put("/updateJobPost", updateJobPosts);
 router.delete("/delete", deleteJobPosts);

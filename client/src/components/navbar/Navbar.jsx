@@ -28,7 +28,9 @@ const Navbar = () => {
     <>
       <NavHeader>
         <nav>
-          <Logo> Resource Excellence</Logo>
+          <Logo>
+            <Link to="/"> Resource Excellence</Link>
+          </Logo>
           <ul>
             {navItems.map(({ path, title }) => (
               <li key={path}>
